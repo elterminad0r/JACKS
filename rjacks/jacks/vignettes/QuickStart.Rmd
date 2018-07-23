@@ -1,7 +1,9 @@
-%\VignetteEngine{knitr::knitr}
-%\VignetteIndexEntry{Quick start with JACKS}
 ---
-title: "QuickStart JACKS"
+title: "Quick start with JACKS"
+vignette: >
+  %\VignetteIndexEntry{Quick start with JACKS}
+  %\VignetteEngine{knitr::rmarkdown}
+  \usepackage[utf8]{inputenc}
 author: "Felicity Allen, Leopold Parts"
 date: "2/14/2018"
 output: 
