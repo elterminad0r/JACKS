@@ -2,16 +2,11 @@
 title: "Quick start with JACKS"
 author: "Felicity Allen, Leopold Parts"
 date: "2/14/2018"
-output:
-  html_document:
-    theme: united
-    toc: yes
-  pdf_document:
-    toc: yes
-vignette: |
+output: rmarkdown::html_vignette
+vignette: >
   %\VignetteIndexEntry{Quick start with JACKS}
-  \usepackage[utf8]{inputenc}
   %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
 ---
 
 ```{r setup, include=FALSE}
@@ -53,10 +48,10 @@ test_genes <- c("KRAS", "RRM2", "ZNF253")
 result <- infer_jacks(lfc, test_genes)
 print(jacks_w_gene(result, "KRAS"), digits=3)
 ```
-### and plot output for one example gene.
+### Plot output for one example gene.
 The output can be inspected with plot_jacks function, where the raw data, as
 well as posteriors of $w$ and $x$ are given for all gRNAs and lines:
-```{r plot, echo=TRUE, warning=FALSE}
+```{r plot, fig.width=10, fig.height=10, echo=TRUE, warning=FALSE}
 p <- plot_jacks(result, "KRAS", do_save=FALSE)
 ```
 

@@ -1,7 +1,6 @@
 #'@import ggplot2
 #'@importFrom GGally ggpairs
 library(cowplot)
-library(ggplot2)
 library(GGally)
 
 .yhist <- function(y, gene, all_logfc){
@@ -15,8 +14,8 @@ library(GGally)
     ycmp_all$gRNAs = "All"
     ycmp = rbind(ycmp_line, ycmp_all)
     ggplot(ycmp, aes_string("log2fc", fill="gRNAs")) +
-      geom_density(alpha=0.3) +
-      theme(legend.position=c(0.6, 0.4), legend.text=element_text(size=8), legend.title=element_text(size=10))
+      geom_density(alpha=0.3) #+
+      #theme(legend.position=c(0.6, 0.4), legend.text=element_text(size=8), legend.title=element_text(size=10))
 }
 
 .yheat <-function(y, gene){
@@ -24,8 +23,9 @@ library(GGally)
       ggtitle(paste(gene, "log2 fold change (measured)")) +
       geom_tile(aes_string(fill="log2fc"), colour="black") +
       scale_fill_gradient2(low="steelblue", mid="white", high="red", midpoint=0, limits=c(-3,3)) +
-      theme(axis.text.x=element_text(angle=0, size=8)) + #, axis.text.y=element_text(size=8)) +
-      theme(legend.title=element_blank(), axis.line=element_blank(), axis.title.x=element_blank(), axis.title.y=element_blank())
+      theme(axis.text.x = element_text(angle = 90, hjust = 1))
+      #theme(axis.text.x=element_text(angle=0, size=8)) + #, axis.text.y=element_text(size=8)) +
+      #theme(legend.title=element_blank(), axis.line=element_blank(), axis.title.x=element_blank(), axis.title.y=element_blank())
 }
 
 .predheat <- function(y){
@@ -33,8 +33,9 @@ library(GGally)
       ggtitle("Prediction") +
       geom_tile(aes_string(fill="Prediction"), colour="black") +
       scale_fill_gradient2(low="steelblue", mid="white", high="red", midpoint=0, limits=c(-3,3)) +
-      theme(axis.text.x=element_text(angle=0, size=8)) + #, axis.text.y=element_text(size=8))
-      theme(legend.title=element_blank(), axis.line=element_blank(), axis.title.x=element_blank(), axis.title.y=element_blank())
+      theme(axis.text.x = element_text(angle = 90, hjust = 1))
+      #theme(axis.text.x=element_text(angle=0, size=8)) + #, axis.text.y=element_text(size=8))
+      #theme(legend.title=element_blank(), axis.line=element_blank(), axis.title.x=element_blank(), axis.title.y=element_blank())
 }
 
 .xviolin <- function(x1, sds_x, n=10000){
@@ -44,8 +45,8 @@ library(GGally)
     ggplot(xs, aes_string(x="gRNA", y="x")) +
       geom_violin(aes_string(fill="factor(gRNA)"), draw_quantiles=c(0.5)) +
       geom_hline(yintercept=1, alpha=0.5, linetype="dashed") +
-      coord_flip() +
-      theme(legend.position="none")
+      coord_flip() #+
+      #theme(legend.position="none")
 }
 
 .wviolin <- function(w1, sds_w, lines, n=10000){
@@ -55,7 +56,9 @@ library(GGally)
     ggplot(ws, aes_string(x="CellLine", y="w")) +
       geom_violin(aes_string(fill="factor(CellLine)"), draw_quantiles=c(0.5)) +
       geom_hline(yintercept=0, alpha=0.5, linetype="dashed") +
-      theme(legend.position="none", plot.margin=margin(l=0.6, r=2.4, unit="cm"))
+      theme(legend.position="none") +
+      theme(axis.text.x = element_text(angle = 90, hjust = 1))
+      #theme(legend.position="none", plot.margin=margin(l=0.6, r=2.4, unit="cm"))
 }
 
 .predscatter <- function(y){
@@ -64,8 +67,10 @@ library(GGally)
       geom_errorbarh(aes_string(xmin="log2fc-MeasurementError", xmax="log2fc+MeasurementError"), alpha=0.2) +
       geom_errorbar(aes_string(ymin="Prediction-PredictionError", ymax="Prediction+PredictionError"), alpha=0.2) +
       geom_abline(slope=1, intercept=0, alpha=0.5, linetype="dashed") + guides(shape=FALSE) +
-      xlim(-3,0.5) + ylim(-3,0.5) +
-      theme(legend.position=c(0.6, 0.4), legend.text=element_text(size=8), legend.title=element_text(size=12))
+      xlim(-3,0.5) + ylim(-3,0.5) #+
+      #theme(legend.position=c(0.6, 0.4)#,
+      #      #legend.text=element_text(size=8), legend.title=element_text(size=12)
+      #      )
 }
 
 .prep_y <- function(r, lines, gene){
@@ -163,13 +168,13 @@ plot_jacks <- function(input, gene, lines=NULL, all_logfc=NULL, do_save=TRUE){
 
 
 .plot_jacks_generesult_grid <- function(yhist, wviol, xviol, yheat, predscatter, predheat, gene, do_save=TRUE){
-    row1 = cowplot::plot_grid(yhist, wviol, labels=c('',''), align='h', rel_widths = c(1,2))
-    row2 = cowplot::plot_grid(xviol, yheat, labels=c('',''), align='h', rel_widths = c(1,2))
-    row3 = cowplot::plot_grid(predscatter, predheat, align='h', rel_widths=c(1, 2))
-    p = cowplot::plot_grid(row1, row2, row3, labels=rep('',3), ncol=1, rel_heights = c(0.6,1,1))
+    row1 = cowplot::plot_grid(yhist, wviol, labels=c('',''), align='h')#, rel_widths = c(1,2))
+    row2 = cowplot::plot_grid(xviol, yheat, labels=c('',''), align='h')#, rel_widths = c(1,2))
+    row3 = cowplot::plot_grid(predscatter, predheat, align='h')#, rel_widths=c(1, 2))
+    p = cowplot::plot_grid(row1, row2, row3, labels=rep('',3), ncol=1)#, rel_heights = c(0.6,1,1))
 
     if(do_save){
-        ggsave(paste0("jacks_",gene,"_plots.pdf"), width=8.24, height=6.74)
+        ggsave(paste0("jacks_",gene,"_plots.pdf"))#, width=8.24, height=6.74)
     } else{
         print(p)
     }

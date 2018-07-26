@@ -17,7 +17,7 @@ biocViews: Software, CRISPR, Bayesian, DimensionReduction,
 License: file LICENSE
 Encoding: UTF-8
 LazyData: true
-Suggests: knitr
+Suggests: knitr, rmarkdown
 VignetteBuilder: knitr
 Depends: SummarizedExperiment, futile.logger, hashmap
 Imports: utils, stats, cowplot, methods,ggplot2, S4Vectors,GGally
